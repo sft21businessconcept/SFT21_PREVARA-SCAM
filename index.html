@@ -62,20 +62,17 @@
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
-        .faq-item .answer {
-          display: grid;
-          grid-template-rows: 0fr; /* Početno stanje: visina 0 */
-          transition: grid-template-rows 0.5s ease-out;
-        }
-        .faq-item .answer > div {
-           overflow: hidden;
-        }
-        .faq-item.active .answer {
-           grid-template-rows: 1fr; /* Krajnje stanje: visina se prilagođava sadržaju */
-        }
-        .faq-item.active .answer {
-            max-height: 4000px; 
-        }
+.faq-item .answer {
+    display: grid;
+    grid-template-rows: 0fr; /* Početno stanje: visina 0 */
+    transition: grid-template-rows 0.5s ease-out;
+}
+.faq-item .answer > div {
+    overflow: hidden;
+}
+.faq-item.active .answer {
+    grid-template-rows: 1fr; /* Krajnje stanje: visina se prilagođava sadržaju */
+}
         .faq-item.active .icon {
             transform: rotate(45deg);
         }
@@ -757,6 +754,7 @@
     </script>
 </body>
 </html>
+
 
 
 
