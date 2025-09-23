@@ -63,9 +63,15 @@
             100% { transform: translateY(0px); }
         }
         .faq-item .answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out;
+          display: grid;
+          grid-template-rows: 0fr; /* Početno stanje: visina 0 */
+          transition: grid-template-rows 0.5s ease-out;
+        }
+        .faq-item .answer > div {
+           overflow: hidden;
+        }
+        .faq-item.active .answer {
+           grid-template-rows: 1fr; /* Krajnje stanje: visina se prilagođava sadržaju */
         }
         .faq-item.active .answer {
             max-height: 3500px; 
@@ -751,6 +757,7 @@
     </script>
 </body>
 </html>
+
 
 
 
