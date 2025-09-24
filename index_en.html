@@ -303,19 +303,26 @@
             <h2 class="text-3xl font-bold text-center mb-12" data-key="evidence_title">Dokazi</h2>
             <div class="text-center">
                <p class="mb-8 max-w-4xl mx-auto text-gray-600 text-justify" data-key="evidence_intro"></p>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="glass-card rounded-2xl p-6 text-center">
+                
+                <!-- Kontejner je sada flex i centrira sadržaj -->
+                <div class="flex justify-center">
+                    
+                    <!-- Prikazano polje s definiranom širinom -->
+                    <div class="glass-card rounded-2xl p-6 text-center w-full md:w-1/2">
                         <h3 class="text-xl font-bold mb-4" data-key="evidence_doc1_title">Kaznene prijave i požurnica</h3>
                         <div>
                             <img src="img/kaznene_prijave.png" alt="Kaznena prijava Suda u Puli - anonimizirano" class="rounded-lg w-full h-auto object-contain" style="max-height: 256px;">
                         </div>
                     </div>
-                    <div class="glass-card rounded-2xl p-6 text-center">
+
+                    <!-- Sakriveno polje s 'hidden' klasom -->
+                    <div class="glass-card rounded-2xl p-6 text-center hidden">
                         <h3 class="text-xl font-bold mb-4" data-key="evidence_doc2_title">Cloudflare Izvješće (DDoS)</h3>
                         <div class="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
                              <p class="text-gray-500" data-key="evidence_doc_placeholder">Dokument uskoro</p>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
