@@ -100,6 +100,80 @@
         .testimonial-card {
             min-height: 200px;
         }
+        .video-container {
+    position: relative;
+    max-width: 850px; 
+    margin: 20px auto;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Ovo osigurava pravilan 16:9 omjer za YouTube */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    height: 0;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    color: #6a2a8c;
+    border: none;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 20px;
+    transition: 0.3s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-btn:hover {
+    background: #6a2a8c;
+    color: white;
+}
+
+.prev { left: 15px; }
+.next { right: 15px; }
+
+.dots-container {
+    background: rgba(255,255,255,0.8);
+    text-align: center;
+    padding: 10px;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background-color: #6a2a8c;
+    transform: scale(1.2);
+}
     </style>
 </head>
 <body class="text-gray-800">
@@ -363,9 +437,30 @@
             </div>
             <div class="glass-card rounded-2xl p-8 text-center">
                 <h3 class="text-2xl font-bold mb-4" data-key="video_testimonial_title">Video Svjedočanstva</h3>
-                <div class="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <p class="text-gray-500" data-key="video_placeholder">Video player uskoro</p>
-                </div>
+                <div class="glass-card rounded-2xl p-8 text-center">
+    <h3 class="text-2xl font-bold mb-4" data-key="video_testimonial_title">Video Svjedočanstva</h3>
+    <div class="video-container">
+        <div class="video-wrapper">
+            <!-- Koristimo iframe za YouTube umjesto video taga -->
+            <iframe id="testimonialVideo" 
+                    src="https://www.youtube.com/embed/Je-DPbNsq10" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+        
+        <!-- Navigacijske strijele -->
+        <button class="slider-btn prev" onclick="changeVideo(-1)">&#10094;</button>
+        <button class="slider-btn next" onclick="changeVideo(1)">&#10095;</button>
+        
+        <!-- Indikatori (točkice) -->
+        <div class="dots-container">
+            <span class="dot active" onclick="setVideo(0)"></span>
+            <span class="dot" onclick="setVideo(1)"></span>
+        </div>
+    </div>
+</div>
             </div>
         </section>
 
@@ -1008,10 +1103,44 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTestimonials(lang);
     setupCarousel();
 });
+    // Liste vaših YouTube videa (koristimo embed format)
+const videoSources = [
+    "https://www.youtube.com/embed/Je-DPbNsq10", 
+    "https://www.youtube.com/embed/FJY6Bk-uWNY"
+];
+
+let currentVideoIndex = 0;
+const videoIframe = document.getElementById('testimonialVideo');
+const dotsElements = document.querySelectorAll('.dot');
+
+function updateSlider() {
+    // Promjena izvora u iframe-u
+    videoIframe.src = videoSources[currentVideoIndex];
+
+    // Ažuriranje točkica
+    dotsElements.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentVideoIndex);
+    });
+}
+
+function changeVideo(direction) {
+    currentVideoIndex += direction;
+    
+    if (currentVideoIndex >= videoSources.length) currentVideoIndex = 0;
+    if (currentVideoIndex < 0) currentVideoIndex = videoSources.length - 1;
+    
+    updateSlider();
+}
+
+function setVideo(index) {
+    currentVideoIndex = index;
+    updateSlider();
+}
 
     </script>
 </body>
 </html>
+
 
 
 
