@@ -103,6 +103,63 @@
         .testimonial-card {
             min-height: 200px;
         }
+        .video-container {
+    position: relative;
+    max-width: 800px; /* Možete podesiti širinu po želji */
+    margin: 20px auto;
+    background: #f3f3f3;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.video-slider video {
+    width: 100%;
+    display: block;
+    border-radius: 15px;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    color: #6a2a8c; /* Ljubičasta boja iz vašeg logotipa */
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 20px;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.slider-btn:hover {
+    background: #6a2a8c;
+    color: white;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.dots-container {
+    text-align: center;
+    padding: 10px;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #6a2a8c;
+}
     </style>
 </head>
 <body class="text-gray-800">
@@ -365,9 +422,24 @@
             </div>
             <div class="glass-card rounded-2xl p-8 text-center">
                 <h3 class="text-2xl font-bold mb-4" data-key="video_testimonial_title">Video Svjedočanstva</h3>
-                <div class="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <p class="text-gray-500" data-key="video_placeholder">Video player uskoro</p>
-                </div>
+                <div class="video-container">
+        <div class="video-slider">
+        <video id="testimonialVideo" controls>
+            <source src="putanja_do_videa_1.mp4" type="video/mp4">
+            Vaš preglednik ne podržava video tag.
+        </video>
+    </div>
+    
+    <!-- Navigacijske strijele -->
+    <button class="slider-btn prev" onclick="changeVideo(-1)">&#10094;</button>
+    <button class="slider-btn next" onclick="changeVideo(1)">&#10095;</button>
+    
+    <!-- Indikatori (točkice) -->
+    <div class="dots-container">
+        <span class="dot active" onclick="setVideo(0)"></span>
+        <span class="dot" onclick="setVideo(1)"></span>
+    </div>
+</div>
             </div>
         </section>
 
@@ -1011,18 +1083,43 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTestimonials(lang);
     setupCarousel();
 });
+     // Liste vaših videa
+const videoSources = [
+    "putanja_do_videa_1.mp4", 
+    "putanja_do_videa_2.mp4"
+];
+
+let currentVideoIndex = 0;
+const videoElement = document.getElementById('testimonialVideo');
+const dots = document.querySelectorAll('.dot');
+
+function updateSlider() {
+    // Promjena izvora videa
+    videoElement.src = videoSources[currentVideoIndex];
+    videoElement.play();
+
+    // Ažuriranje točkica (indikatora)
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentVideoIndex);
+    });
+}
+
+function changeVideo(direction) {
+    currentVideoIndex += direction;
+    
+    // Kružna navigacija
+    if (currentVideoIndex >= videoSources.length) currentVideoIndex = 0;
+    if (currentVideoIndex < 0) currentVideoIndex = videoSources.length - 1;
+    
+    updateSlider();
+}
+
+function setVideo(index) {
+    currentVideoIndex = index;
+    updateSlider();
+}
 
     </script>
+   
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
