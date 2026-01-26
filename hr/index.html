@@ -192,6 +192,37 @@
         height: 450px !important;
     }
 }
+        .hero-bg {
+    /* Putanja do slike koju ste spremili (npr. hero-istina.jpg) */
+    background-image: url('/img/hero-istina.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Razmak iznad i ispod teksta kako bi se slika vidjela */
+    padding: 100px 0; 
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+/* Opcionalno: lagani prijelaz prema bijeloj kartici ispod */
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, #f8fafc); /* #f8fafc je boja vaše pozadine */
+}
+        @media (max-width: 768px) {
+    .hero-bg { padding: 60px 0; }
+}
     </style>
 </head>
 <body class="text-gray-800">
@@ -216,14 +247,21 @@
     </header>
 
     <main class="container mx-auto px-6 py-12">
-        <!-- Hero Section -->
-        <section class="text-center my-16">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600" data-key="main_title">Istina o SFT21 kompaniji</span>
-            </h1>
-            <p class="mt-2 text-2xl font-semibold text-gray-500">(ex. InFace Invest Group)</p>
-            <p class="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto" data-key="main_subtitle">Otvoreno o optužbama, našoj misiji i budućnosti</p>
-        </section>
+        
+<!-- Hero Section sa slikom u pozadini -->
+<section class="hero-bg">
+    <div class="container mx-auto px-4 relative z-10">
+        <h1 class="text-4xl md:text-6xl font-bold text-purple-900 mb-2" data-key="hero_title">
+            Istina o SFT21 kompaniji
+        </h1>
+        <p class="text-xl md:text-2xl font-semibold text-gray-700 mb-4">
+            (ex. InFace Invest Group)
+        </p>
+        <p class="text-lg md:text-xl text-gray-600 italic" data-key="hero_subtitle">
+            Otvoreno o optužbama, našoj misiji i budućnosti
+        </p>
+    </div>
+</section>
 
         <!-- Intro -->
         <section class="my-16">
@@ -1211,6 +1249,7 @@ document.addEventListener('DOMContentLoaded', updatePdfSlider);
    
 </body>
 </html>
+
 
 
 
