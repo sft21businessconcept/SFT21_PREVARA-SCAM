@@ -177,6 +177,21 @@
     background-color: #6a2a8c;
     transform: scale(1.2);
 }
+        .pdf-container {
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.pdf-btn {
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(106, 42, 140, 0.2);
+}
+
+@media (max-width: 768px) {
+    .pdf-container {
+        height: 450px !important;
+    }
+}
     </style>
 </head>
 <body class="text-gray-800">
@@ -376,33 +391,47 @@
             </div>
         </section>
 
-        <!-- Evidence Section -->
-        <section class="my-16">
-            <h2 class="text-3xl font-bold text-center mb-12" data-key="evidence_title">Dokazi</h2>
-            <div class="text-center">
-               <p class="mb-8 max-w-4xl mx-auto text-gray-600 text-justify" data-key="evidence_intro"></p>
-                
-                <!-- Kontejner je sada flex i centrira sadržaj -->
-                <div class="flex justify-center">
-                    
-                    <!-- Prikazano polje s definiranom širinom -->
-                    <div class="glass-card rounded-2xl p-6 text-center w-full md:w-1/2">
-                        <h3 class="text-xl font-bold mb-4" data-key="evidence_doc1_title">Kaznene prijave i požurnica</h3>
-                        <div>
-                            <img src="/img/kaznene_prijave.png" alt="Kaznena prijava Suda u Puli - anonimizirano" class="rounded-lg w-full h-auto object-contain" style="max-height: 256px;">
-                    </div>
-
-                    <!-- Sakriveno polje s 'hidden' klasom -->
-                    <div class="glass-card rounded-2xl p-6 text-center hidden">
-                        <h3 class="text-xl font-bold mb-4" data-key="evidence_doc2_title">Cloudflare Izvješće (DDoS)</h3>
-                        <div class="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
-                             <p class="text-gray-500" data-key="evidence_doc_placeholder">Dokument uskoro</p>
-                        </div>
-                    </div>
-
-                </div>
+       <!-- Evidence Section -->
+<section class="my-16 px-4">
+    <h2 class="text-3xl font-bold text-center mb-12" data-key="evidence_title">Dokazi</h2>
+    
+    <div class="max-w-5xl mx-auto">
+        <p class="mb-8 text-gray-600 text-justify" data-key="evidence_intro"></p>
+        
+        <!-- PDF Slider Container -->
+        <div class="glass-card rounded-2xl p-4 md:p-8 shadow-2xl relative">
+            <!-- Naslov dokumenta -->
+            <div class="mb-6 text-center">
+                <h3 id="pdfTitle" class="text-xl font-bold text-purple-900">Učitavanje...</h3>
+                <p id="pdfCounter" class="text-sm text-gray-500 mt-1"></p>
             </div>
-        </section>
+
+            <!-- PDF Viewer Frame -->
+            <div class="pdf-container relative bg-gray-100 rounded-xl overflow-hidden shadow-inner" style="height: 600px;">
+                <iframe id="pdfFrame" src="" class="w-full h-full border-none"></iframe>
+            </div>
+
+            <!-- Navigacijske kontrole -->
+            <div class="flex justify-between items-center mt-6">
+                <button onclick="changePDF(-1)" class="pdf-btn bg-white/80 hover:bg-purple-700 hover:text-white p-3 rounded-full transition-all shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                <a id="pdfDownload" href="#" target="_blank" class="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition shadow-lg text-sm font-semibold uppercase tracking-wider">
+                    Otvori u punom prozoru
+                </a>
+
+                <button onclick="changePDF(1)" class="pdf-btn bg-white/80 hover:bg-purple-700 hover:text-white p-3 rounded-full transition-all shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
 
         <!-- Our Future -->
         <section class="my-16 text-center text-purple-700">
@@ -1138,10 +1167,51 @@ function setVideo(index) {
     currentVideoIndex = index;
     updateSlider();
 }
+    const pdfDocs = [
+    { title: "Privatna tužba za klevetu i uvredu (Danijel & Liza)", file: "1_Danijel_Liza_Truerainmaker_Privatna tuzba za klevetu i uvredu.pdf" },
+    { title: "Rješenje suda o zahtjevu za nadopunom", file: "2_Rjesenje suda o zahtjevu za nadopunom kaznene prijave.pdf" },
+    { title: "Nadopuna kaznene prijave (Kruljac, Liza, Mašleša)", file: "3_Nadopuna kaznene prijave Kruljac_Liza_Maslesa.pdf" },
+    { title: "Rješenje o odbacivanju tužbe (Kruljac)", file: "4_Rjesenje o odbacivanju tuzbe_Kruljac.pdf" },
+    { title: "Žalba na rješenje o odbacivanju", file: "5_Zalba na Rjesenje o odbacivanju kaznene prijave.pdf" },
+    { title: "Privatna tužba za klevetu (Vladimir Stošić)", file: "6_Vladimir Stosic_Privatna tuzba za klevetu i uvredu.pdf" },
+    { title: "Rješenje o ponavljanju tužbe (Stošić)", file: "7_Vladimir Stosic.rjesenje o ponavljanju tuzbe.pdf" },
+    { title: "Uređena privatna tužba", file: "8_UREDENA PRIVATNA TUZBA.pdf" }
+];
+
+let currentPdfIndex = 0;
+
+function updatePdfSlider() {
+    const doc = pdfDocs[currentPdfIndex];
+    const folder = "/dokumenti/"; // Putanja do vaše mape
+    const fullPath = folder + doc.file;
+
+    // Ažuriraj iframe
+    document.getElementById('pdfFrame').src = fullPath;
+    
+    // Ažuriraj naslov i brojač
+    document.getElementById('pdfTitle').innerText = doc.title;
+    document.getElementById('pdfCounter').innerText = `Dokument ${currentPdfIndex + 1} od ${pdfDocs.length}`;
+    
+    // Ažuriraj gumb za download/full view
+    document.getElementById('pdfDownload').href = fullPath;
+}
+
+function changePDF(direction) {
+    currentPdfIndex += direction;
+    
+    if (currentPdfIndex >= pdfDocs.length) currentPdfIndex = 0;
+    if (currentPdfIndex < 0) currentPdfIndex = pdfDocs.length - 1;
+    
+    updatePdfSlider();
+}
+
+// Inicijalizacija pri učitavanju stranice
+document.addEventListener('DOMContentLoaded', updatePdfSlider);
     </script>
    
 </body>
 </html>
+
 
 
 
