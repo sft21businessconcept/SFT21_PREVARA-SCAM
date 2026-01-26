@@ -437,7 +437,7 @@
         <div class="glass-card rounded-2xl p-4 md:p-8 shadow-2xl relative">
             <!-- Naslov dokumenta -->
             <div class="mb-6 text-center">
-                <h3 id="pdfTitle" class="text-xl font-bold text-purple-900">Učitavanje...</h3>
+                <h3 id="pdfTitle" class="text-xl font-bold text-purple-900">Loading...</h3>
                 <p id="pdfCounter" class="text-sm text-gray-500 mt-1"></p>
             </div>
 
@@ -1224,7 +1224,7 @@ function updatePdfSlider() {
     
     // Ažuriraj naslov i brojač
     document.getElementById('pdfTitle').innerText = doc.title;
-    document.getElementById('pdfCounter').innerText = `Dokument ${currentPdfIndex + 1} od ${pdfDocs.length}`;
+    document.getElementById('pdfCounter').innerText = `Document ${currentPdfIndex + 1} of ${pdfDocs.length}`;
     
     // Ažuriraj gumb za download/full view
     document.getElementById('pdfDownload').href = fullPath;
@@ -1245,6 +1245,7 @@ document.addEventListener('DOMContentLoaded', updatePdfSlider);
     </script>
 </body>
 </html>
+
 
 
 
